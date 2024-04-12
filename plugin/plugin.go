@@ -45,10 +45,6 @@ func Exec(ctx context.Context, args Args) error {
 		return fmt.Errorf("failed to assume role with web identity: %w", err)
 	}
 
-	logrus.Infof("AWS Access: " + *result.Credentials.AccessKeyId)
-	logrus.Infof("AWS Secret: " + *result.Credentials.SecretAccessKey)
-	logrus.Infof("AWS Session Token: " + *result.Credentials.SessionToken)
-
 	// Write the AWS credentials to the output file
 	if err := WriteEnvToFile("AWS_ACCESS_KEY_ID", *result.Credentials.AccessKeyId); err != nil {
 		return err
@@ -60,7 +56,7 @@ func Exec(ctx context.Context, args Args) error {
 		return err
 	}
 
-	logrus.Infof("AWS credentials set successfully")
+	logrus.Infof("Retreieved AWS temporary credentials successfully.")
 
 	return nil
 }
