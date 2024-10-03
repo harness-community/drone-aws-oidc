@@ -1,4 +1,4 @@
-image: plugins/aws-oidc:{{#if build.tag}}{{trimPrefix "v" build.tag}}{{else}}secure{{/if}}
+image: plugins/aws-oidc:{{#if build.tag}}{{trimPrefix "v" build.tag}}{{else}}latest{{/if}}
 {{#if build.tags}}
 tags:
 {{#each build.tags}}
@@ -7,18 +7,18 @@ tags:
 {{/if}}
 manifests:
   -
-    image: plugins/aws-oidc:{{#if build.tag}}{{trimPrefix "v" build.tag}}-{{/if}}secure-linux-amd64
+    image: plugins/aws-oidc:{{#if build.tag}}{{trimPrefix "v" build.tag}}-{{/if}}latest-linux-amd64
     platform:
       architecture: amd64
       os: linux
   -
-    image: plugins/aws-oidc:{{#if build.tag}}{{trimPrefix "v" build.tag}}-{{/if}}secure-linux-arm64
+    image: plugins/aws-oidc:{{#if build.tag}}{{trimPrefix "v" build.tag}}-{{/if}}latest-linux-arm64
     platform:
       variant: v8
       architecture: arm64
       os: linux
   -
-    image: plugins/aws-oidc:{{#if build.tag}}{{trimPrefix "v" build.tag}}-{{/if}}secure-windows-amd64
+    image: plugins/aws-oidc:{{#if build.tag}}{{trimPrefix "v" build.tag}}-{{/if}}latest-windows-amd64
     platform:
       architecture: amd64
       os: windows
