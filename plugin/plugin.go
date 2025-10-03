@@ -14,7 +14,7 @@ import (
 // Args provides plugin execution arguments.
 type Args struct {
 	Level            string `envconfig:"PLUGIN_LOG_LEVEL"`
-	RoleARN          string `envconfig:"PLUGIN_IAMROLEARN"`
+	RoleARN          string `envconfig:"PLUGIN_IAM_ROLE_ARN"`
 	OIDCTokenID      string `envconfig:"PLUGIN_OIDC_TOKEN_ID"`
 	RoleSessionName  string `envconfig:"PLUGIN_ROLE_SESSION_NAME"`
 	DurationSeconds  int64  `envconfig:"PLUGIN_DURATION"`
