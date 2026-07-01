@@ -1,6 +1,6 @@
 module github.com/harness-community/drone-aws-oidc
 
-go 1.22.1
+go 1.25.11
 
 require (
 	github.com/aws/aws-sdk-go v1.51.20
