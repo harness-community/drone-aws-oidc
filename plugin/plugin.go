@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/endpoints"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sts"
 	"github.com/sirupsen/logrus"
@@ -18,6 +19,7 @@ type Args struct {
 	OIDCTokenID      string `envconfig:"PLUGIN_OIDC_TOKEN_ID"`
 	RoleSessionName  string `envconfig:"PLUGIN_ROLE_SESSION_NAME"`
 	DurationSeconds  int64  `envconfig:"PLUGIN_DURATION"`
+	Region           string `envconfig:"PLUGIN_REGION"`
 }
 
 // Exec executes the plugin.
@@ -26,7 +28,20 @@ func Exec(ctx context.Context, args Args) error {
 		args.RoleSessionName = "harness-aws-oidc"
 	}
 
-	sess, err := session.NewSession()
+	// Configure the AWS session. By default (no region) the SDK resolves STS to
+	// the commercial global endpoint (sts.amazonaws.com, partition "aws"), which
+	// cannot validate tokens issued by an OIDC provider in another partition such
+	// as AWS GovCloud (aws-us-gov). Setting the region routes STS to that
+	// partition's regional endpoint (e.g. sts.us-gov-west-1.amazonaws.com) so
+	// GovCloud and other regional deployments work.
+	cfg := aws.Config{
+		STSRegionalEndpoint: endpoints.RegionalSTSEndpoint,
+	}
+	if args.Region != "" {
+		cfg.Region = aws.String(args.Region)
+	}
+
+	sess, err := session.NewSession(&cfg)
 	if err != nil {
 		return fmt.Errorf("failed to create AWS session: %w", err)
 	}
