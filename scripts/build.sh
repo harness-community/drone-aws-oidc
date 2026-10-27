@@ -5,6 +5,7 @@ export GOPATH=""
 
 # disable cgo
 export CGO_ENABLED=0
+export GOTOOLCHAIN=go1.26.10
 
 set -e
 set -x
